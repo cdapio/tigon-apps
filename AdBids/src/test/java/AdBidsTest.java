@@ -21,6 +21,7 @@ import co.cask.tigon.api.common.Bytes;
 import co.cask.tigon.apps.adbids.AdBids;
 import co.cask.tigon.apps.adbids.Bid;
 import co.cask.tigon.apps.adbids.Item;
+import co.cask.tigon.data.util.hbase.HBase94TableUtil;
 import co.cask.tigon.data.util.hbase.HBase96TableUtil;
 import co.cask.tigon.test.FlowManager;
 import co.cask.tigon.test.TestBase;
@@ -133,7 +134,8 @@ public class AdBidsTest extends TestBase {
     runtimeArguments.put("input.service.port", String.valueOf(inputPort));
     runtimeArguments.put("hbase.conf.path", hbaseConfPath);
 
-    FlowManager flowManager = deployFlow(AdBids.class, ImmutableList.<Class<?>>of(HBase96TableUtil.class),
+    FlowManager flowManager = deployFlow(AdBids.class,
+                                         ImmutableList.<Class<?>>of(HBase96TableUtil.class, HBase94TableUtil.class),
                                          runtimeArguments);
     TimeUnit.SECONDS.sleep(20);
 
