@@ -14,15 +14,15 @@
  * the License.
  */
 
-package co.cask.tigon.apps.adbids;
+package co.cask.tigon.apps.adnetworkflow;
 
 
 import co.cask.tigon.api.common.Bytes;
 import co.cask.tigon.api.flow.Flow;
 import co.cask.tigon.api.flow.FlowSpecification;
-import co.cask.tigon.apps.adbids.advertisers.MusicAdvertiserFlowlet;
-import co.cask.tigon.apps.adbids.advertisers.SportsAdvertiserFlowlet;
-import co.cask.tigon.apps.adbids.advertisers.TravelAdvertiserFlowlet;
+import co.cask.tigon.apps.adnetworkflow.advertisers.MusicAdvertiserFlowlet;
+import co.cask.tigon.apps.adnetworkflow.advertisers.SportsAdvertiserFlowlet;
+import co.cask.tigon.apps.adnetworkflow.advertisers.TravelAdvertiserFlowlet;
 
 /**
  * An application for advertisers to bid on ads for user-views.

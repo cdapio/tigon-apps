@@ -14,7 +14,7 @@
  * the License.
  */
 
-package co.cask.tigon.apps.adbids;
+package co.cask.tigon.apps.adnetworkflow;
 
 import co.cask.tigon.api.annotation.HashPartition;
 import co.cask.tigon.api.annotation.ProcessInput;

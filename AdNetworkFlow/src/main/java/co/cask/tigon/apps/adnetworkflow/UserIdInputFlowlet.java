@@ -14,7 +14,7 @@
  * the License.
  */
 
-package co.cask.tigon.apps.adbids;
+package co.cask.tigon.apps.adnetworkflow;
 
 import co.cask.http.AbstractHttpHandler;
 import co.cask.http.HttpHandler;

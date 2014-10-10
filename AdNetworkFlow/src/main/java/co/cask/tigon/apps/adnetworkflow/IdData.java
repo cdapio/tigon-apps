@@ -14,37 +14,37 @@
  * the License.
  */
 
-package co.cask.tigon.apps.adbids;
+package co.cask.tigon.apps.adnetworkflow;
 
 /**
- * A Bid made by an advertiser for a user-id.
+ * A {@link Advertisers} specific set of information used by advertisers to make a bid for a user-view.
  */
-public final class Bid {
+public final class IdData {
   private final String id;
-  private final String item;
-  private final double amount;
+  private final int itemCount;
+  private final int totalCount;
 
   /**
-   * Create a new Bid for a user.
+   * Creates a new {@link IdData} to use by advertisers to make a bid.
    * @param id id of the user.
-   * @param item type of the advertisement.
-   * @param amount bid amount for the advertisement.
+   * @param itemCount count of advertisements for a particular item.
+   * @param totalCount total count of all advertisements for this user.
    */
-  public Bid(String id, String item, double amount) {
+  public IdData(String id, int itemCount, int totalCount) {
     this.id = id;
-    this.item = item;
-    this.amount = amount;
+    this.itemCount = itemCount;
+    this.totalCount = totalCount;
   }
 
   public String getId() {
     return id;
   }
 
-  public String getItem() {
-    return item;
+  public int getItemCount() {
+    return itemCount;
   }
 
-  public double getAmount() {
-    return amount;
+  public int getTotalCount() {
+    return totalCount;
   }
 }

@@ -1,11 +1,11 @@
-package co.cask.tigon.apps.adbids.advertisers;
+package co.cask.tigon.apps.adnetworkflow.advertisers;
 
 import co.cask.tigon.api.annotation.ProcessInput;
 import co.cask.tigon.api.flow.flowlet.AbstractFlowlet;
 import co.cask.tigon.api.flow.flowlet.OutputEmitter;
-import co.cask.tigon.apps.adbids.Advertisers;
-import co.cask.tigon.apps.adbids.Bid;
-import co.cask.tigon.apps.adbids.IdData;
+import co.cask.tigon.apps.adnetworkflow.Advertisers;
+import co.cask.tigon.apps.adnetworkflow.Bid;
+import co.cask.tigon.apps.adnetworkflow.IdData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
