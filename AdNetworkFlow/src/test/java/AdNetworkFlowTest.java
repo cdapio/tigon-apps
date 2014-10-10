@@ -18,9 +18,9 @@ import co.cask.tephra.TransactionContext;
 import co.cask.tephra.hbase96.TransactionAwareHTable;
 import co.cask.tephra.inmemory.DetachedTxSystemClient;
 import co.cask.tigon.api.common.Bytes;
-import co.cask.tigon.apps.adbids.AdBids;
+import co.cask.tigon.apps.adbids.AdNetworkFlow;
+import co.cask.tigon.apps.adbids.Advertisers;
 import co.cask.tigon.apps.adbids.Bid;
-import co.cask.tigon.apps.adbids.Item;
 import co.cask.tigon.test.FlowManager;
 import co.cask.tigon.test.TestBase;
 import com.google.common.base.Charsets;
@@ -48,9 +48,9 @@ import java.util.NavigableMap;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Tests for {@link AdBids} Flow.
+ * Tests for {@link AdNetworkFlow} Flow.
  */
-public class AdBidsTest extends TestBase {
+public class AdNetworkFlowTest extends TestBase {
   private static final Gson GSON = new Gson();
 
   @Test
@@ -60,7 +60,7 @@ public class AdBidsTest extends TestBase {
     Map<String, String>  runtimeArguments = Maps.newHashMap();
     runtimeArguments.put("input.service.port", String.valueOf(inputPort));
     runtimeArguments.put("bids.output.file", outputFile.getAbsolutePath());
-    FlowManager flowManager = deployFlow(AdBids.class, runtimeArguments);
+    FlowManager flowManager = deployFlow(AdNetworkFlow.class, runtimeArguments);
     TimeUnit.SECONDS.sleep(5);
 
     postEvents(inputPort);
@@ -79,32 +79,32 @@ public class AdBidsTest extends TestBase {
     Bid thirdBid = bids.get(2);
 
     Assert.assertEquals("test-user-0", firstBid.getId());
-    Assert.assertEquals(Item.TRAVEL, firstBid.getItem());
-    Assert.assertEquals(12.0, firstBid.getAmount(), 0);
+    Assert.assertEquals(Advertisers.MUSIC, firstBid.getItem());
+    Assert.assertEquals(15.0, firstBid.getAmount(), 0);
 
-    Assert.assertEquals("test-user-0", firstBid.getId());
-    Assert.assertEquals(Item.SPORTS, secondBid.getItem());
-    Assert.assertEquals(10.0, secondBid.getAmount(), 0);
+    Assert.assertEquals("test-user-0", secondBid.getId());
+    Assert.assertEquals(Advertisers.TRAVEL, secondBid.getItem());
+    Assert.assertEquals(12.0, secondBid.getAmount(), 0);
 
-    Assert.assertEquals("test-user-0", firstBid.getId());
-    Assert.assertEquals(Item.TRAVEL, thirdBid.getItem());
-    Assert.assertEquals(6.0, thirdBid.getAmount(), 0);
+    Assert.assertEquals("test-user-0", thirdBid.getId());
+    Assert.assertEquals(Advertisers.SPORTS, thirdBid.getItem());
+    Assert.assertEquals(10.0, thirdBid.getAmount(), 0);
 
     Bid fourthBid = bids.get(3);
     Bid fifthBid = bids.get(4);
     Bid sixthBid = bids.get(5);
 
     Assert.assertEquals("test-user-1", fourthBid.getId());
-    Assert.assertEquals(Item.TRAVEL, fourthBid.getItem());
-    Assert.assertEquals(12.0, fourthBid.getAmount(), 0);
+    Assert.assertEquals(Advertisers.MUSIC, fourthBid.getItem());
+    Assert.assertEquals(15.0, fourthBid.getAmount(), 0);
 
     Assert.assertEquals("test-user-1", fifthBid.getId());
-    Assert.assertEquals(Item.SPORTS, fifthBid.getItem());
-    Assert.assertEquals(10.0, fifthBid.getAmount(), 0);
+    Assert.assertEquals(Advertisers.TRAVEL, fifthBid.getItem());
+    Assert.assertEquals(12.0, fifthBid.getAmount(), 0);
 
     Assert.assertEquals("test-user-1", sixthBid.getId());
-    Assert.assertEquals(Item.TRAVEL, sixthBid.getItem());
-    Assert.assertEquals(6.0, sixthBid.getAmount(), 0);
+    Assert.assertEquals(Advertisers.SPORTS, sixthBid.getItem());
+    Assert.assertEquals(10.0, sixthBid.getAmount(), 0);
 
     flowManager.stop();
   }
@@ -131,7 +131,7 @@ public class AdBidsTest extends TestBase {
     runtimeArguments.put("input.service.port", String.valueOf(inputPort));
     runtimeArguments.put("hbase.conf.path", hbaseConfPath);
 
-    FlowManager flowManager = deployFlow(AdBids.class, runtimeArguments);
+    FlowManager flowManager = deployFlow(AdNetworkFlow.class, runtimeArguments);
     TimeUnit.SECONDS.sleep(20);
 
     postEvents(inputPort);
@@ -139,7 +139,7 @@ public class AdBidsTest extends TestBase {
     flowManager.stop();
     TimeUnit.SECONDS.sleep(20);
 
-    HTable hTable = new HTable(hBaseAdmin.getConfiguration(), AdBids.BID_TABLE_NAME);
+    HTable hTable = new HTable(hBaseAdmin.getConfiguration(), AdNetworkFlow.BID_TABLE_NAME);
     TransactionAwareHTable txAwareHTable = new TransactionAwareHTable(hTable);
     TransactionContext transactionContext = new TransactionContext(new DetachedTxSystemClient(), txAwareHTable);
 
@@ -150,19 +150,21 @@ public class AdBidsTest extends TestBase {
 
       Assert.assertEquals(3, result.size());
 
-      NavigableMap<byte[], byte[]> travelFamilyMap = result.getFamilyMap(Bytes.toBytes(Item.TRAVEL));
-      NavigableMap<byte[], byte[]> sportsFamilyMap = result.getFamilyMap(Bytes.toBytes(Item.SPORTS));
+      NavigableMap<byte[], byte[]> travelFamilyMap = result.getFamilyMap(Bytes.toBytes(Advertisers.TRAVEL));
+      NavigableMap<byte[], byte[]> sportsFamilyMap = result.getFamilyMap(Bytes.toBytes(Advertisers.SPORTS));
+      NavigableMap<byte[], byte[]> musicFamilyMap = result.getFamilyMap(Bytes.toBytes(Advertisers.MUSIC));
 
-      Assert.assertEquals(2, travelFamilyMap.size());
+      Assert.assertEquals(1, travelFamilyMap.size());
       Assert.assertEquals(1, sportsFamilyMap.size());
+      Assert.assertEquals(1, musicFamilyMap.size());
 
+      assertHbaseBids(musicFamilyMap.pollFirstEntry(), 15.0);
       assertHbaseBids(travelFamilyMap.pollFirstEntry(), 12.0);
       assertHbaseBids(sportsFamilyMap.pollFirstEntry(), 10.0);
-      assertHbaseBids(travelFamilyMap.pollFirstEntry(), 6.0);
     }
 
-    hBaseAdmin.disableTable(AdBids.BID_TABLE_NAME);
-    hBaseAdmin.deleteTable(AdBids.BID_TABLE_NAME);
+    hBaseAdmin.disableTable(AdNetworkFlow.BID_TABLE_NAME);
+    hBaseAdmin.deleteTable(AdNetworkFlow.BID_TABLE_NAME);
     hBaseAdmin.close();
     testUtil.shutdownMiniCluster();
   }

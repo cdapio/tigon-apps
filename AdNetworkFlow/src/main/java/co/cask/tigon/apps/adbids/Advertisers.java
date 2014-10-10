@@ -16,13 +16,20 @@
 
 package co.cask.tigon.apps.adbids;
 
+import com.google.common.collect.ImmutableList;
+
 /**
  * Items that advertisers bid on for a user.
  */
-public final class Item {
+public final class Advertisers {
 
   public static final String SPORTS = "SPORTS";
 
   public static final String TRAVEL = "TRAVEL";
 
+  public static final String MUSIC = "MUSIC";
+
+  public static Iterable<String> getAll() {
+    return ImmutableList.of(SPORTS, TRAVEL, MUSIC);
+  }
 }

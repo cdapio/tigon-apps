@@ -20,11 +20,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>co.cask.tigon</groupId>
-  <artifactId>AdBids</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <artifactId>AdNetworkFlow</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
 
   <properties>
-    <app.main.class>co.cask.tigon.apps.adbids.AdBids</app.main.class>
+    <app.main.class>co.cask.tigon.apps.adbids.AdNetworkFlow</app.main.class>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <tigon.version>0.2.0-SNAPSHOT</tigon.version>
     <slf4j.version>1.7.5</slf4j.version>
@@ -60,6 +60,7 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>${slf4j.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -88,9 +89,9 @@
       <version>${tephra.version}</version>
     </dependency>
     <dependency>
-      <groupId>co.cask.tigon</groupId>
-      <artifactId>tigon-common</artifactId>
-      <version>${tigon.version}</version>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-common</artifactId>
+      <version>${hadoop.version}</version>
     </dependency>
 
     <dependency>

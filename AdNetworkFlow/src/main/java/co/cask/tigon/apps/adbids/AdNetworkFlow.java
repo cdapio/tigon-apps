@@ -20,6 +20,7 @@ package co.cask.tigon.apps.adbids;
 import co.cask.tigon.api.common.Bytes;
 import co.cask.tigon.api.flow.Flow;
 import co.cask.tigon.api.flow.FlowSpecification;
+import co.cask.tigon.apps.adbids.advertisers.MusicAdvertiserFlowlet;
 import co.cask.tigon.apps.adbids.advertisers.SportsAdvertiserFlowlet;
 import co.cask.tigon.apps.adbids.advertisers.TravelAdvertiserFlowlet;
 
@@ -36,26 +37,29 @@ import co.cask.tigon.apps.adbids.advertisers.TravelAdvertiserFlowlet;
  *  - hbase.conf.path : Path to HBase configuration file. A new table is created in this HBase instance to track
  *    granted bids. This argument is compulsory.
  */
-public final class AdBids implements Flow {
-  public static final byte[] BID_TABLE_NAME = Bytes.toBytes("tigon.usecases.adbids");
+public final class AdNetworkFlow implements Flow {
+  public static final byte[] BID_TABLE_NAME = Bytes.toBytes("tigon.usecases.adnetwork");
 
   @Override
   public FlowSpecification configure() {
     return FlowSpecification.Builder.with()
       .setName("AdBids")
-      .setDescription("An application for advertisers to bid on ads for user-views.")
+      .setDescription("A sample application that demonstrates the implementation of a real time bidding ad network.")
       .withFlowlets()
       .add("id-collector", new UserIdInputFlowlet(), 1)
       .add("advertiser-notification", new AdvertiserNotificationFlowlet(), 1)
       .add("travel-advertiser", new TravelAdvertiserFlowlet(), 1)
       .add("sports-advertiser", new SportsAdvertiserFlowlet(), 1)
-      .add("grant-bids", new GrantBidsFlowlet(), 1)
+      .add("music-advertiser", new MusicAdvertiserFlowlet(), 1)
+      .add("bid-resolver", new BidResolverFlowlet(), 1)
       .connect()
       .from("id-collector").to("advertiser-notification")
       .from("advertiser-notification").to("travel-advertiser")
       .from("advertiser-notification").to("sports-advertiser")
-      .from("travel-advertiser").to("grant-bids")
-      .from("sports-advertiser").to("grant-bids")
+      .from("advertiser-notification").to("music-advertiser")
+      .from("travel-advertiser").to("bid-resolver")
+      .from("sports-advertiser").to("bid-resolver")
+      .from("music-advertiser").to("bid-resolver")
       .build();
   }
 }

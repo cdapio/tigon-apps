@@ -17,7 +17,7 @@
 package co.cask.tigon.apps.adbids;
 
 /**
- * A {@link Item} specific set of information used by advertisers to make a bid for a user-view.
+ * A {@link Advertisers} specific set of information used by advertisers to make a bid for a user-view.
  */
 public final class IdData {
   private final String id;

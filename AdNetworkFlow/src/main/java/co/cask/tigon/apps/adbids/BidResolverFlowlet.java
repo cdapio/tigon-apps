@@ -42,13 +42,13 @@ import java.util.concurrent.TimeUnit;
  * A {@link Flowlet} that grants bids to advertisers for user-ids. It waits for a specific amount of time to allow
  * all advertisers to register their bid before granting it to the advertiser with the maximum bid.
  */
-public final class GrantBidsFlowlet extends AbstractBidProcessorFlowlet {
-  private static final Logger LOG = LoggerFactory.getLogger(GrantBidsFlowlet.class);
-  private static final int BID_WAIT_TIME_MS = 5000;
+public final class BidResolverFlowlet extends AbstractBidProcessorFlowlet {
+  private static final Logger LOG = LoggerFactory.getLogger(BidResolverFlowlet.class);
+  private static final long BID_WAIT_TIME_MS = 500L;
   private static final Gson GSON = new Gson();
   private static final Multimap<String, Bid> bids = Multimaps.synchronizedListMultimap(
                                                     ArrayListMultimap.<String, Bid>create());
-  private static final DelayQueue<DelayedId> idDelayQueue = new DelayQueue<DelayedId>();
+  private static final DelayQueue<DelayedId> idQueue = new DelayQueue<DelayedId>();
 
   @SuppressWarnings("UnusedDeclaration")
   @ProcessInput
@@ -56,15 +56,15 @@ public final class GrantBidsFlowlet extends AbstractBidProcessorFlowlet {
   public void process(Bid bid) throws Exception {
     bids.put(bid.getId(), bid);
     DelayedId delayedId = new DelayedId(bid.getId());
-    if (!idDelayQueue.contains(delayedId)) {
-      idDelayQueue.put(delayedId);
+    if (!idQueue.contains(delayedId)) {
+      idQueue.put(delayedId);
     }
   }
 
   @SuppressWarnings("UnusedDeclaration")
-  @Tick(delay = 1L, unit = TimeUnit.SECONDS)
+  @Tick(delay = 250L, unit = TimeUnit.MILLISECONDS)
   public void grantBid() throws Exception {
-    DelayedId delayedId = idDelayQueue.poll();
+    DelayedId delayedId = idQueue.poll();
     while (delayedId != null) {
       String id = delayedId.getId();
       Bid maxBid;
@@ -90,10 +90,10 @@ public final class GrantBidsFlowlet extends AbstractBidProcessorFlowlet {
         } else {
           inMemoryGrantBid(maxBid);
         }
-        LOG.info("Bid for {} granted to {} for {}.", id, maxBid.getItem(), maxBid.getAmount());
+        LOG.info("Bid for {} granted to advertiser {} for ${}.", id, maxBid.getItem(), maxBid.getAmount());
       }
       bids.removeAll(id);
-      delayedId = idDelayQueue.poll();
+      delayedId = idQueue.poll();
     }
   }
 

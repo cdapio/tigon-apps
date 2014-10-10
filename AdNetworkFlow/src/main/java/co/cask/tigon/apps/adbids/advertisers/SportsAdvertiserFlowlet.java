@@ -19,29 +19,34 @@ package co.cask.tigon.apps.adbids.advertisers;
 import co.cask.tigon.api.annotation.ProcessInput;
 import co.cask.tigon.api.flow.flowlet.AbstractFlowlet;
 import co.cask.tigon.api.flow.flowlet.OutputEmitter;
+import co.cask.tigon.apps.adbids.Advertisers;
 import co.cask.tigon.apps.adbids.Bid;
 import co.cask.tigon.apps.adbids.IdData;
-import co.cask.tigon.apps.adbids.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * An advertiser that makes bids on users to show ads related to travel.
+ * An advertiser that makes bids on users to show ads related to sports.
  */
-public final class TravelAdvertiserFlowlet extends AbstractFlowlet {
-  private static final Logger LOG = LoggerFactory.getLogger(TravelAdvertiserFlowlet.class);
+public final class SportsAdvertiserFlowlet extends AbstractFlowlet {
+  private static final Logger LOG = LoggerFactory.getLogger(SportsAdvertiserFlowlet.class);
   private OutputEmitter<Bid> bidOutputEmitter;
 
-  @ProcessInput(Item.TRAVEL)
+  /**
+   * Compute the SportAdvertiser's bid amount for each incoming user id.
+   * @param idData idData used to compute the bid amount.
+   * @throws Exception
+   */
+  @ProcessInput(Advertisers.SPORTS)
   @SuppressWarnings("UnusedDeclaration")
   public void process(IdData idData) throws Exception {
     double bidAmount;
-    if (idData.getTotalCount() == 0) {
-      bidAmount = 12;
+    if (idData.getTotalCount() == 0 || (idData.getItemCount()/(double) idData.getTotalCount()) < 0.5) {
+      bidAmount = 10;
     } else {
-      bidAmount = ((idData.getTotalCount() - idData.getItemCount()) / (double) idData.getTotalCount()) * 12;
+      bidAmount = 0;
     }
-    bidOutputEmitter.emit(new Bid(idData.getId(), Item.TRAVEL, bidAmount), "userId", idData.getId());
+    bidOutputEmitter.emit(new Bid(idData.getId(), Advertisers.SPORTS, bidAmount), "userId", idData.getId());
     LOG.info("Bid {} for user {}", bidAmount, idData.getId());
   }
 }

@@ -24,8 +24,8 @@ import co.cask.tigon.api.flow.flowlet.FlowletContext;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
-import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.TableExistsException;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
@@ -45,7 +45,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * implementations must use the {@link TransactionAwareHTable}.
  */
 public abstract class AbstractBidProcessorFlowlet extends AbstractFlowlet {
-  private static final Logger LOG = LoggerFactory.getLogger(GrantBidsFlowlet.class);
+  private static final Logger LOG = LoggerFactory.getLogger(AbstractBidProcessorFlowlet.class);
   protected static final Lock TABLE_LOCK = new ReentrantLock();
   protected static final Table<String, String, Integer> AD_BIDS = HashBasedTable.create();
   protected File outputFile;
@@ -68,18 +68,18 @@ public abstract class AbstractBidProcessorFlowlet extends AbstractFlowlet {
       configuration.addResource(hbaseConf.toURI().toURL());
 
       HBaseAdmin hBaseAdmin = new HBaseAdmin(configuration);
-      HTableDescriptor hTableDescriptor = new HTableDescriptor(AdBids.BID_TABLE_NAME);
-      hTableDescriptor.addFamily(new HColumnDescriptor(Bytes.toBytes(Item.TRAVEL)));
-      hTableDescriptor.addFamily(new HColumnDescriptor(Bytes.toBytes(Item.SPORTS)));
+      HTableDescriptor hTableDescriptor = new HTableDescriptor(AdNetworkFlow.BID_TABLE_NAME);
+      for (String advertiser : Advertisers.getAll()) {
+        hTableDescriptor.addFamily(new HColumnDescriptor(Bytes.toBytes(advertiser)));
+      }
+      createTableIfNotExists(hBaseAdmin, AdNetworkFlow.BID_TABLE_NAME, hTableDescriptor);
 
-      createTableIfNotExists(hBaseAdmin, AdBids.BID_TABLE_NAME, hTableDescriptor);
-
-      if (!hBaseAdmin.isTableEnabled(AdBids.BID_TABLE_NAME)) {
-        hBaseAdmin.enableTable(AdBids.BID_TABLE_NAME);
+      if (!hBaseAdmin.isTableEnabled(AdNetworkFlow.BID_TABLE_NAME)) {
+        hBaseAdmin.enableTable(AdNetworkFlow.BID_TABLE_NAME);
       }
 
       hBaseAdmin.close();
-      transactionAwareHTable = new TransactionAwareHTable(new HTable(configuration, AdBids.BID_TABLE_NAME));
+      transactionAwareHTable = new TransactionAwareHTable(new HTable(configuration, AdNetworkFlow.BID_TABLE_NAME));
       context.addTransactionAware(transactionAwareHTable);
     }
   }
