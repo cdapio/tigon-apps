@@ -61,7 +61,7 @@ Make a request to the ``UserIdInputFlowlet``, notifying it that the views of the
 
 The bid granted for this user is logged as:
 
-    Bid for testuser granted to TRAVEL advertiser for $12.
+    Bid for testuser granted to MUSIC advertiser for $15.
 
 ## License and Trademarks
 
