@@ -39,7 +39,11 @@ This environment accepts an optional runtime argument:
 To run the app in Distributed Runtime Environment:
 
     $ ./run_distributed.sh <ZookeeperQuorum> <HDFSNamespace>
-    > START /path/to/AdNetworkFlow-<version>.jar co.cask.tigon.apps.adnetworkflow.AdNetworkFlow --hbase.conf.path=<path-to-hbase-configuration>
+    > START /path/to/AdNetworkFlow-<version>.jar co.cask.tigon.apps.adnetworkflow.AdNetworkFlow --write.to.hbase=true
+
+This environment accepts an optional runtime argument:
+ - ```hbase.conf.path``` Specify the path to the HBase configuration. By default, the configuration file in the
+  classpath is used.
 
 Both runtimes support an additional argument:
 - ```input.service.port``` Specify the port on which the server started by ``UserIdInputFlowlet`` runs. By default, the 
