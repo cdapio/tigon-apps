@@ -87,8 +87,8 @@ public class AdNetworkFlowTest extends TestBase {
     Assert.assertEquals(12.0, secondBid.getAmount(), 0);
 
     Assert.assertEquals("test-user-0", thirdBid.getId());
-    Assert.assertEquals(Advertisers.SPORTS, thirdBid.getItem());
-    Assert.assertEquals(10.0, thirdBid.getAmount(), 0);
+    Assert.assertEquals(Advertisers.MUSIC, thirdBid.getItem());
+    Assert.assertEquals(10.606601717798211, thirdBid.getAmount(), 0);
 
     Bid fourthBid = bids.get(3);
     Bid fifthBid = bids.get(4);
@@ -103,8 +103,8 @@ public class AdNetworkFlowTest extends TestBase {
     Assert.assertEquals(12.0, fifthBid.getAmount(), 0);
 
     Assert.assertEquals("test-user-1", sixthBid.getId());
-    Assert.assertEquals(Advertisers.SPORTS, sixthBid.getItem());
-    Assert.assertEquals(10.0, sixthBid.getAmount(), 0);
+    Assert.assertEquals(Advertisers.MUSIC, sixthBid.getItem());
+    Assert.assertEquals(10.606601717798211, sixthBid.getAmount(), 0);
 
     flowManager.stop();
   }
@@ -155,12 +155,11 @@ public class AdNetworkFlowTest extends TestBase {
       NavigableMap<byte[], byte[]> musicFamilyMap = result.getFamilyMap(Bytes.toBytes(Advertisers.MUSIC));
 
       Assert.assertEquals(1, travelFamilyMap.size());
-      Assert.assertEquals(1, sportsFamilyMap.size());
-      Assert.assertEquals(1, musicFamilyMap.size());
+      Assert.assertEquals(2, musicFamilyMap.size());
 
       assertHbaseBids(musicFamilyMap.pollFirstEntry(), 15.0);
+      assertHbaseBids(musicFamilyMap.pollFirstEntry(), 10.606601717798211);
       assertHbaseBids(travelFamilyMap.pollFirstEntry(), 12.0);
-      assertHbaseBids(sportsFamilyMap.pollFirstEntry(), 10.0);
     }
 
     hBaseAdmin.disableTable(AdNetworkFlow.BID_TABLE_NAME);

@@ -27,8 +27,8 @@ public class MusicAdvertiserFlowlet extends AbstractFlowlet {
     if (idData.getTotalCount() == 0) {
       bidAmount = 15;
     } else {
-      bidAmount = ((idData.getTotalCount() - idData.getItemCount()) / (2 * (double) idData.getTotalCount())) * 10;
-      bidAmount = Math.sin(Math.PI * bidAmount);
+      bidAmount = ((idData.getTotalCount() - idData.getItemCount()) / (2 * (double) idData.getTotalCount()));
+      bidAmount = Math.sin(Math.PI * bidAmount) * 15;
     }
     bidOutputEmitter.emit(new Bid(idData.getId(), Advertisers.MUSIC, bidAmount), "userId", idData.getId());
     LOG.info("Bid {} for user {}", bidAmount, idData.getId());

@@ -117,20 +117,20 @@ public final class UserIdInputFlowlet extends AbstractFlowlet {
    * users yet to be auctioned.
    */
   public static final class IdHandler extends AbstractHttpHandler {
-    private static final Queue<String> ids = Queues.newConcurrentLinkedQueue();
+    private static final Queue<String> IDS = Queues.newConcurrentLinkedQueue();
 
     @Path("/id/{id}")
     @POST
     public void newCustomer(HttpRequest request, HttpResponder responder, @PathParam("id") String id) {
-      ids.add(id);
+      IDS.add(id);
       responder.sendStatus(HttpResponseStatus.OK);
     }
 
     @Path("id")
     @GET
     public void pollCustomers(HttpRequest request, HttpResponder responder) {
-      String[] queuedUsers = ids.toArray(new String[ids.size()]);
-      ids.clear();
+      String[] queuedUsers = IDS.toArray(new String[IDS.size()]);
+      IDS.clear();
       if (queuedUsers.length != 0) {
         responder.sendJson(HttpResponseStatus.OK, queuedUsers);
       } else {
