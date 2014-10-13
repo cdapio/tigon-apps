@@ -32,11 +32,15 @@ import co.cask.tigon.apps.adnetworkflow.advertisers.TravelAdvertiserFlowlet;
  * <ul>
  *  <li><code>input.service.port</code>: Port to run the id input service on. Defaults to a random available port.</li>
  *
- *  <li><code>bids.output.file</code>: Path of file to log bids to. Defaults to only logging the output. (Specific to Standalone mode.)</li>
- *
+ *  <li><code>bids.output.file</code>: Path of file to log bids to.
+ *    Defaults to only logging the output. (Specific to Standalone mode.)</li>
  *  <li>
- *    <code>hbase.conf.path</code>: Path to HBase configuration file. A new table is created in this HBase instance to track
- *    granted bids. This argument is compulsory. (Specific to Distributed mode.)
+ *    <code>write.to.hbase</code>: Configure the Flow to write and read bids from HBase. A new table is created in the
+ *    HBase instance to track granted bids. This argument is compulsory. (Specific to Distributed mode.)
+ *  </li>
+ *  <li>
+ *    <code>hbase.conf.path</code>: Path to HBase configuration file.
+ *    This argument is optional. (Specific to Distributed mode.)
  *  </li>
  * </ul>
  *</p>
@@ -48,7 +52,7 @@ public final class AdNetworkFlow implements Flow {
   @Override
   public FlowSpecification configure() {
     return FlowSpecification.Builder.with()
-      .setName("AdBids")
+      .setName("AdNetworkFlow")
       .setDescription("A sample application that demonstrates the implementation of a real time bidding ad network.")
       .withFlowlets()
       .add("id-collector", new UserIdInputFlowlet(), 1)

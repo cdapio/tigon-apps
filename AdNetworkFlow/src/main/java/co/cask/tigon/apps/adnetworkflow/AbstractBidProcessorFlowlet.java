@@ -25,6 +25,7 @@ import com.google.common.base.Stopwatch;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.TableExistsException;
@@ -61,14 +62,19 @@ public abstract class AbstractBidProcessorFlowlet extends AbstractFlowlet {
     super.initialize(context);
     String outputFilePath = context.getRuntimeArguments().get("bids.output.file");
     String hbaseConfFilePath = context.getRuntimeArguments().get("hbase.conf.path");
+    String writeToHBase = context.getRuntimeArguments().get("write.to.hbase");
+
     if (outputFilePath != null) {
       outputFile = new File(outputFilePath);
     }
-    if (hbaseConfFilePath != null) {
+    if (writeToHBase != null) {
       distributedMode = true;
-      File hbaseConf = new File(hbaseConfFilePath);
-      Configuration configuration = new Configuration(true);
-      configuration.addResource(hbaseConf.toURI().toURL());
+      Configuration configuration = HBaseConfiguration.create();
+
+      if (hbaseConfFilePath != null) {
+        File hbaseConf = new File(hbaseConfFilePath);
+        configuration.addResource(hbaseConf.toURI().toURL());
+      }
 
       HBaseAdmin hBaseAdmin = new HBaseAdmin(configuration);
       try {

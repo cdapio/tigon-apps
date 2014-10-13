@@ -129,6 +129,7 @@ public class AdNetworkFlowTest extends TestBase {
 
     Map<String, String> runtimeArguments = Maps.newHashMap();
     runtimeArguments.put("input.service.port", String.valueOf(inputPort));
+    runtimeArguments.put("write.to.hbase", "true");
     runtimeArguments.put("hbase.conf.path", hbaseConfPath);
 
     FlowManager flowManager = deployFlow(AdNetworkFlow.class, runtimeArguments);
@@ -151,7 +152,6 @@ public class AdNetworkFlowTest extends TestBase {
       Assert.assertEquals(3, result.size());
 
       NavigableMap<byte[], byte[]> travelFamilyMap = result.getFamilyMap(Bytes.toBytes(Advertisers.TRAVEL));
-      NavigableMap<byte[], byte[]> sportsFamilyMap = result.getFamilyMap(Bytes.toBytes(Advertisers.SPORTS));
       NavigableMap<byte[], byte[]> musicFamilyMap = result.getFamilyMap(Bytes.toBytes(Advertisers.MUSIC));
 
       Assert.assertEquals(1, travelFamilyMap.size());
