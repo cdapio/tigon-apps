@@ -41,8 +41,11 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * An abstract {@link Flowlet} that encapsulates the resources needed to access and process bids.
+ *
+ * <p>
  * In-memory implementations should use the underlying {@link Table} to maintain state. Similarly, distributed
  * implementations must use the {@link TransactionAwareHTable}.
+ * </p>
  */
 public abstract class AbstractBidProcessorFlowlet extends AbstractFlowlet {
   private static final Logger LOG = LoggerFactory.getLogger(AbstractBidProcessorFlowlet.class);
@@ -68,17 +71,20 @@ public abstract class AbstractBidProcessorFlowlet extends AbstractFlowlet {
       configuration.addResource(hbaseConf.toURI().toURL());
 
       HBaseAdmin hBaseAdmin = new HBaseAdmin(configuration);
-      HTableDescriptor hTableDescriptor = new HTableDescriptor(AdNetworkFlow.BID_TABLE_NAME);
-      for (String advertiser : Advertisers.getAll()) {
-        hTableDescriptor.addFamily(new HColumnDescriptor(Bytes.toBytes(advertiser)));
-      }
-      createTableIfNotExists(hBaseAdmin, AdNetworkFlow.BID_TABLE_NAME, hTableDescriptor);
+      try {
+        HTableDescriptor hTableDescriptor = new HTableDescriptor(AdNetworkFlow.BID_TABLE_NAME);
+        for (String advertiser : Advertisers.getAll()) {
+          hTableDescriptor.addFamily(new HColumnDescriptor(Bytes.toBytes(advertiser)));
+        }
+        createTableIfNotExists(hBaseAdmin, AdNetworkFlow.BID_TABLE_NAME, hTableDescriptor);
 
-      if (!hBaseAdmin.isTableEnabled(AdNetworkFlow.BID_TABLE_NAME)) {
-        hBaseAdmin.enableTable(AdNetworkFlow.BID_TABLE_NAME);
+        if (!hBaseAdmin.isTableEnabled(AdNetworkFlow.BID_TABLE_NAME)) {
+          hBaseAdmin.enableTable(AdNetworkFlow.BID_TABLE_NAME);
+        }
+      } finally {
+        hBaseAdmin.close();
       }
 
-      hBaseAdmin.close();
       transactionAwareHTable = new TransactionAwareHTable(new HTable(configuration, AdNetworkFlow.BID_TABLE_NAME));
       context.addTransactionAware(transactionAwareHTable);
     }

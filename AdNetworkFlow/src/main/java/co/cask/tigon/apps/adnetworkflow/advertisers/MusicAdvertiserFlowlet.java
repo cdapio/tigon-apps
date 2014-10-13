@@ -18,8 +18,7 @@ public class MusicAdvertiserFlowlet extends AbstractFlowlet {
 
   /**
    * Compute the MusicAdvertiser's bid amount for each incoming user id.
-   * @param idData idData used to compute the bid amount.
-   * @throws Exception
+   * @param idData the data used to compute the bid amount.
    */
   @ProcessInput(Advertisers.MUSIC)
   @SuppressWarnings("UnusedDeclaration")

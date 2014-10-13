@@ -17,7 +17,7 @@
 package co.cask.tigon.apps.adnetworkflow;
 
 /**
- * A {@link Advertisers} specific set of information used by advertisers to make a bid for a user-view.
+ * A {@link Advertisers Advertiser}-specific information used by an advertiser to bid for a user-view.
  */
 public final class IdData {
   private final String id;

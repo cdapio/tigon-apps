@@ -49,8 +49,12 @@ import javax.ws.rs.PathParam;
 
 /**
  * A {@link Flowlet} that starts a {@link NettyHttpService} that accepts requests to register new user-ids.
- * In the real world, this is most often implemented as a stream of cookie information associated with incoming
+ *
+ * <p>
+ * In a production application, this is often implemented as a stream of cookie information associated with incoming
  * ad requests.
+ * </p>
+ *
  */
 public final class UserIdInputFlowlet extends AbstractFlowlet {
 
@@ -109,8 +113,8 @@ public final class UserIdInputFlowlet extends AbstractFlowlet {
   }
 
   /**
-   * A {@link HttpHandler} that exposes endpoints to submit a new user-id and to poll on the queue of users yet
-   * to be auctioned.
+   * A {@link HttpHandler} that exposes endpoints for submitting a new user-id and for polling the queue of
+   * users yet to be auctioned.
    */
   public static final class IdHandler extends AbstractHttpHandler {
     private static final Queue<String> ids = Queues.newConcurrentLinkedQueue();

@@ -27,16 +27,21 @@ import co.cask.tigon.apps.adnetworkflow.advertisers.TravelAdvertiserFlowlet;
 /**
  * An application for advertisers to bid on ads for user-views.
  *
- * This {@link Flow} accepts the following runtime arguments:
- *  - input.service.port : Port to run the id input service on. Defaults to a random available port.
+ *<p>
+ *This {@link Flow} accepts these runtime arguments:
+ * <ul>
+ *  <li><code>input.service.port</code>: Port to run the id input service on. Defaults to a random available port.</li>
  *
- *  Standalone specific:
- *  - bids.output.file : Path of file to log bids to. Defaults to only logging the output.
+ *  <li><code>bids.output.file</code>: Path of file to log bids to. Defaults to only logging the output. (Specific to Standalone mode.)</li>
  *
- *  Distributed specific:
- *  - hbase.conf.path : Path to HBase configuration file. A new table is created in this HBase instance to track
- *    granted bids. This argument is compulsory.
- */
+ *  <li>
+ *    <code>hbase.conf.path</code>: Path to HBase configuration file. A new table is created in this HBase instance to track
+ *    granted bids. This argument is compulsory. (Specific to Distributed mode.)
+ *  </li>
+ * </ul>
+ *</p>
+ *
+ **/
 public final class AdNetworkFlow implements Flow {
   public static final byte[] BID_TABLE_NAME = Bytes.toBytes("tigon.usecases.adnetwork");
 

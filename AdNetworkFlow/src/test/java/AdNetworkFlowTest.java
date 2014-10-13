@@ -48,7 +48,7 @@ import java.util.NavigableMap;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Tests for {@link AdNetworkFlow} Flow.
+ * Tests for the {@link AdNetworkFlow}.
  */
 public class AdNetworkFlowTest extends TestBase {
   private static final Gson GSON = new Gson();

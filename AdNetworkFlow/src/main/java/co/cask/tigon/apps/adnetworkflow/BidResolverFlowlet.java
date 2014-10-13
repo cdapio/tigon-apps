@@ -39,8 +39,12 @@ import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
 
 /**
- * A {@link Flowlet} that grants bids to advertisers for user-ids. It waits for a specific amount of time to allow
- * all advertisers to register their bid before granting it to the advertiser with the maximum bid.
+ * A {@link Flowlet} that grants bids to advertisers for user-ids.
+ *
+ * <p>
+ * It waits for a specific amount of time to allow all advertisers to register their bid
+ * before granting it to the advertiser with the maximum bid.
+ * </p>
  */
 public final class BidResolverFlowlet extends AbstractBidProcessorFlowlet {
   private static final Logger LOG = LoggerFactory.getLogger(BidResolverFlowlet.class);

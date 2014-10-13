@@ -19,7 +19,7 @@ package co.cask.tigon.apps.adnetworkflow;
 import com.google.common.collect.ImmutableList;
 
 /**
- * Items that advertisers bid on for a user.
+ * List of advertisers bidding on user-views.
  */
 public final class Advertisers {
 

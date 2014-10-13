@@ -32,7 +32,10 @@ import java.util.NavigableMap;
 
 /**
  * A {@link Flowlet} that notifies advertisers that a new user-id is available to be bid on.
- * In addition, it also provides advertisers relevant information needed to make a bid.
+ *
+ * <p>
+ * Additionally, it provides advertisers information relevant to making a bid.
+ * </p>
  */
 public final class AdvertiserNotificationFlowlet extends AbstractBidProcessorFlowlet {
 

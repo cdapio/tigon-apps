@@ -34,8 +34,7 @@ public final class TravelAdvertiserFlowlet extends AbstractFlowlet {
 
   /**
    * Compute the TravelAdvertiser's bid amount for each incoming user id.
-   * @param idData idData used to compute the bid amount.
-   * @throws Exception
+   * @param idData the data used to compute the bid amount.
    */
   @ProcessInput(Advertisers.TRAVEL)
   @SuppressWarnings("UnusedDeclaration")
