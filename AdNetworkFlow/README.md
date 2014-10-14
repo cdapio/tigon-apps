@@ -2,7 +2,7 @@
 
 ``AdNetworkFlow`` example application for Tigon.
 
-This application demonstrates how you could use Tigon to write a real-time bidding (RTB) advertisement framework.
+This application demonstrates how you could use Tigon to write a realtime bidding (RTB) advertisement framework.
 
 ## Implementation Details
 
