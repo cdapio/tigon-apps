@@ -1,9 +1,11 @@
 Tigon Applications
 ==================
 
-Repository for reference applications built using `Tigon<http://tigon.io/`>_.
+Repository for reference applications built using `Tigon 
+<http://tigon.io/>`_. 
 
 `AdNetworkFlow </AdNetworkFlow/>`_: Realtime Bidding Advertisement Framework
+
 
 License
 =======
