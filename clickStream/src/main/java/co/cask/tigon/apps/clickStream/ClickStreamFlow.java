@@ -97,7 +97,7 @@ class SQLInputFlowlet extends AbstractInputFlowlet {
                      "associated with a click event");
     StreamSchema viewSchema = new StreamSchema.Builder()
       .setName("viewData")
-      .addField("pageID", GDATFieldType.INT, GDATSlidingWindowAttribute.INCREASING)
+      .addField("pageViewID", GDATFieldType.INT, GDATSlidingWindowAttribute.INCREASING)
       .addField("viewTime", GDATFieldType.INT)
       .addField("lid1", GDATFieldType.INT)
       .addField("lid2", GDATFieldType.INT)
@@ -107,7 +107,7 @@ class SQLInputFlowlet extends AbstractInputFlowlet {
       .build();
     StreamSchema clickSchema = new StreamSchema.Builder()
       .setName("clickData")
-      .addField("refPageID", GDATFieldType.INT, GDATSlidingWindowAttribute.INCREASING)
+      .addField("refpageViewID", GDATFieldType.INT, GDATSlidingWindowAttribute.INCREASING)
       .addField("clickTime", GDATFieldType.INT)
       .addField("lid", GDATFieldType.INT)
       .build();
@@ -117,8 +117,8 @@ class SQLInputFlowlet extends AbstractInputFlowlet {
     // 5 minute (300 seconds) window of the view event are filtered out.
     addQuery("clickDataStream",
              "SELECT clickTime as time, pageInfo as referrerPageInfo, lid as linkID, " +
-               "linkDetails, refPageID as refID " +
-               "INNER_JOIN FROM viewStream.viewData v, clickStream.clickData c WHERE v.pageID = c.refPageID " +
+               "linkDetails, refpageViewID as refID " +
+               "INNER_JOIN FROM viewStream.viewData v, clickStream.clickData c WHERE v.pageViewID = c.refpageViewID " +
                "AND clickTime >= viewTime AND clickTime <= (300 + viewTime)" +
                " AND (c.lid = v.lid1 or c.lid = v.lid2 or c.lid = v.lid3)");
   }
