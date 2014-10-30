@@ -41,7 +41,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A {@link co.cask.tigon.api.flow.Flow} that does an inner-join on age and name, based on ID.
+ * This {@link co.cask.tigon.api.flow.Flow} serves as a demonstration for using Tigon SQL to join 2 data streams.
+ * In this example a view event data stream and a click event data stream are joined to generate meta information for
+ * each click event using the view even data stream. Some click events are filtered out on the basis of conditions
+ * specified in the SQL query.
  */
 public class ClickStreamFlow implements Flow {
   @Override
@@ -110,6 +113,8 @@ class SQLInputFlowlet extends AbstractInputFlowlet {
       .build();
     addJSONInput("viewStream", viewSchema);
     addJSONInput("clickStream", clickSchema);
+    // Fetches meta-information for all click events using the related view event. Click events which occur outside a
+    // 5 minute (300 seconds) window of the view event are filtered out.
     addQuery("clickDataStream",
              "SELECT clickTime as time, pageInfo as referrerPageInfo, lid as linkID, " +
                "linkDetails, refPageID as refID " +
@@ -147,6 +152,11 @@ class DigestFlowlet extends AbstractFlowlet {
     }
   }
 
+  /**
+   * This method is invoked for each {@link ClickInfo} object emitted by the {@link SQLInputFlowlet}.
+   * It pings a string encoded JSON of the incoming data object to the provided baseURL.
+   * @param obj
+   */
   @ProcessInput("clickInfo")
   void process(ClickInfo obj) {
     LOG.info("Received Click Info - " + obj.toString());

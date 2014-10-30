@@ -47,6 +47,7 @@ public class ClickStreamFlowTest extends SQLFlowTestBase {
 
   @Test
   public void testClickStreamFlow() throws Exception {
+    // Generating mock view event data packets
     List<String> viewDataList = Lists.newArrayList();
     for (int i = 1; i <= MAX; i++) {
       JsonObject bodyJson = new JsonObject();
@@ -61,6 +62,7 @@ public class ClickStreamFlowTest extends SQLFlowTestBase {
       bodyJson.add("data", dataArray);
       viewDataList.add(bodyJson.toString());
     }
+    // Generating mock click event data packets
     List<String> clickDataList = Lists.newArrayList();
     for (int i = 1; i <= MAX / 2; i++) {
       JsonObject bodyJson = new JsonObject();
@@ -79,8 +81,11 @@ public class ClickStreamFlowTest extends SQLFlowTestBase {
     int dataPacketCounter = 4;
     ClickInfo dataPacket;
     while ((dataPacket = getDataPacket(ClickInfo.class)) != null) {
+      //Asserting that referrerPageInfo is always of the format "PageName<refID>"
       Assert.assertEquals("PageName" + dataPacket.refID, dataPacket.referrerPageInfo);
+      //Asserting that the linkName is as expected based on the value of refID
       Assert.assertEquals("LinkName" + (dataPacket.refID / 2) % 3, dataPacket.getLinkName());
+      //Asserting on the value of time which is equal to that of the value generated for clickTime
       Assert.assertEquals(dataPacket.refID * 15 + 260, dataPacket.time);
       dataPacketCounter = dataPacketCounter - 1;
     }
