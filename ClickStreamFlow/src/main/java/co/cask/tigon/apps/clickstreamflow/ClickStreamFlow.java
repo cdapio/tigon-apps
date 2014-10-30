@@ -14,7 +14,7 @@
  * the License.
  */
 
-package co.cask.tigon.apps.clickStream;
+package co.cask.tigon.apps.clickstreamflow;
 
 import co.cask.tigon.api.annotation.Output;
 import co.cask.tigon.api.annotation.ProcessInput;

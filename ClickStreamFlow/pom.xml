@@ -20,11 +20,11 @@ the License.
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>co.cask.tigon</groupId>
-  <artifactId>ClickStream</artifactId>
+  <artifactId>ClickStreamFlow</artifactId>
   <version>0.1.0-SNAPSHOT</version>
 
   <properties>
-    <app.main.class>co.cask.tigon.apps.clickStream.ClickStreamFlow</app.main.class>
+    <app.main.class>co.cask.tigon.apps.clickstreamflow.ClickStreamFlow</app.main.class>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <tigon.version>0.3.0-SNAPSHOT</tigon.version>
     <apache.http.version>4.2.6</apache.http.version>
