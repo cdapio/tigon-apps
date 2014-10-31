@@ -50,9 +50,13 @@ The query filters out all click events that occur five minutes (300 seconds) aft
      $ ./run_distributed.sh /path/to/ClickStreamFlow-<version>.jar co.cask.tigon.apps.clickstreamflow.ClickStreamFlow
 
 Optional runtime arguments:
-    - ``httpPort``: Specify the network port for the HTTP data ingestion service. If not specified, Tigon automatically assigns a port. This value is always announced at runtime.
-    - ``tcpPort_viewStream``: Specify the network port for the TCP data ingestion service for ingesting view stream data. If not specified, Tigon automatically assigns a port. This value is always announced at runtime.
-    - ``tcpPort_clickStream``: Specify the network port for the TCP data ingestion service for ingesting click stream data. If not specified, Tigon automatically assigns a port. This value is always announced at runtime.
+
+- ``httpPort``: Specify the network port for the HTTP data ingestion service. 
+    If not specified, Tigon automatically assigns a port. This value is always announced at runtime.
+- ``tcpPort_viewStream``: Specify the network port for the TCP data ingestion service for ingesting view stream data. 
+    If not specified, Tigon automatically assigns a port. This value is always announced at runtime.
+- ``tcpPort_clickStream``: Specify the network port for the TCP data ingestion service for ingesting click stream data.
+    If not specified, Tigon automatically assigns a port. This value is always announced at runtime.
 
 ## Example Usage
 
@@ -68,31 +72,34 @@ To post click event data to the clickStream:
 
 Input
 -------
-- ``viewStream`` : 
-    - {"data":["1","10","0","1","2","PageName1","'0':'LinkName0' - '1':'LinkName1' - '2':'LinkName2'"]}
-    - {"data":["2","20","0","1","2","PageName2","'0':'LinkName0' - '1':'LinkName1' - '2':'LinkName2'"]}
-    - {"data":["3","30","0","1","2","PageName3","'0':'LinkName0' - '1':'LinkName1' - '2':'LinkName2'"]}
-    - {"data":["4","40","0","1","2","PageName4","'0':'LinkName0' - '1':'LinkName1' - '2':'LinkName2'"]}
-    - {"data":["5","50","0","1","2","PageName5","'0':'LinkName0' - '1':'LinkName1' - '2':'LinkName2'"]}
-    - {"data":["6","60","0","1","2","PageName6","'0':'LinkName0' - '1':'LinkName1' - '2':'LinkName2'"]}
-    - {"data":["7","70","0","1","2","PageName7","'0':'LinkName0' - '1':'LinkName1' - '2':'LinkName2'"]}
-    - {"data":["8","80","0","1","2","PageName8","'0':'LinkName0' - '1':'LinkName1' - '2':'LinkName2'"]}
-    - {"data":["9","90","0","1","2","PageName9","'0':'LinkName0' - '1':'LinkName1' - '2':'LinkName2'"]}
-    - {"data":["10","100","0","1","2","PageName10","'0':'LinkName0' - '1':'LinkName1' - '2':'LinkName2'"]}
+- ``viewStream``:
 
-- ``clickStream`` : 
-    - {"data":["2","290","1"]}
-    - {"data":["4","320","2"]}
-    - {"data":["6","350","0"]}
-    - {"data":["8","380","1"]}
-    - {"data":["10","410","2"]}
+        {"data":["1","10","0","1","2","PageName1","'0':'LinkName0' - '1':'LinkName1' - '2':'LinkName2'"]}
+        {"data":["2","20","0","1","2","PageName2","'0':'LinkName0' - '1':'LinkName1' - '2':'LinkName2'"]}
+        {"data":["3","30","0","1","2","PageName3","'0':'LinkName0' - '1':'LinkName1' - '2':'LinkName2'"]}
+        {"data":["4","40","0","1","2","PageName4","'0':'LinkName0' - '1':'LinkName1' - '2':'LinkName2'"]}
+        {"data":["5","50","0","1","2","PageName5","'0':'LinkName0' - '1':'LinkName1' - '2':'LinkName2'"]}
+        {"data":["6","60","0","1","2","PageName6","'0':'LinkName0' - '1':'LinkName1' - '2':'LinkName2'"]}
+        {"data":["7","70","0","1","2","PageName7","'0':'LinkName0' - '1':'LinkName1' - '2':'LinkName2'"]}
+        {"data":["8","80","0","1","2","PageName8","'0':'LinkName0' - '1':'LinkName1' - '2':'LinkName2'"]}
+        {"data":["9","90","0","1","2","PageName9","'0':'LinkName0' - '1':'LinkName1' - '2':'LinkName2'"]}
+        {"data":["10","100","0","1","2","PageName10","'0':'LinkName0' - '1':'LinkName1' - '2':'LinkName2'"]}
+
+- ``clickStream``: 
+
+        {"data":["2","290","1"]}
+        {"data":["4","320","2"]}
+        {"data":["6","350","0"]}
+        {"data":["8","380","1"]}
+        {"data":["10","410","2"]}
 
 Output
 -------
-- ClickTime : 290	Link Message : LinkName1	Referrer Page : PageName2
-- ClickTime : 320	Link Message : LinkName2	Referrer Page : PageName4
-- ClickTime : 350	Link Message : LinkName0	Referrer Page : PageName6
-- ClickTime : 380	Link Message : LinkName1	Referrer Page : PageName8
+
+        ClickTime : 290	Link Message : LinkName1	Referrer Page : PageName2
+        ClickTime : 320	Link Message : LinkName2	Referrer Page : PageName4
+        ClickTime : 350	Link Message : LinkName0	Referrer Page : PageName6
+        ClickTime : 380	Link Message : LinkName1	Referrer Page : PageName8
 
 
 ## License and Trademarks
