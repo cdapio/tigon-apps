@@ -88,10 +88,10 @@ Input
 
 Output
 -------
-    - ClickTime : 290	Link Message : LinkName1	Referrer Page : PageName2
-    - ClickTime : 320	Link Message : LinkName2	Referrer Page : PageName4
-    - ClickTime : 350	Link Message : LinkName0	Referrer Page : PageName6
-    - ClickTime : 380	Link Message : LinkName1	Referrer Page : PageName8
+- ClickTime : 290	Link Message : LinkName1	Referrer Page : PageName2
+- ClickTime : 320	Link Message : LinkName2	Referrer Page : PageName4
+- ClickTime : 350	Link Message : LinkName0	Referrer Page : PageName6
+- ClickTime : 380	Link Message : LinkName1	Referrer Page : PageName8
 
 
 ## License and Trademarks
