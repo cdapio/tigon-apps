@@ -26,7 +26,7 @@ the License.
   <properties>
     <app.main.class>co.cask.tigon.apps.clickstreamflow.ClickStreamFlow</app.main.class>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <tigon.version>0.3.0-SNAPSHOT</tigon.version>
+    <tigon.version>0.2.1</tigon.version>
     <apache.http.version>4.2.6</apache.http.version>
   </properties>
 
