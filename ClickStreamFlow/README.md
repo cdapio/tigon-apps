@@ -29,7 +29,7 @@ The ``ClickStreamFlow`` application consists of:
 
 The SQL query performs a join on these two data streams based on the pageViewID and the refPageViewID in viewStream and clickStream respectively. It generates an output record containing meta information associated with each click: click time; referrer page information; link ID; link details; and the referrer page view ID.
 
-The query filters out all click events that occurred five minutes (300 seconds) after the associated view event
+The query filters out all click events that occur five minutes (300 seconds) after the associated view event.
 
 ## Build and Usage
  
@@ -43,16 +43,16 @@ The query filters out all click events that occurred five minutes (300 seconds) 
 
  To run the app in the Standalone Runtime Environment:
 
-     $ ./run_standalone.sh /path/to/ClickStreamFlow-<version>.jar co.cask.tigon.apps.clickStreamflow.ClickStreamFlow
+     $ ./run_standalone.sh /path/to/ClickStreamFlow-<version>.jar co.cask.tigon.apps.clickstreamflow.ClickStreamFlow
 
  To run the app in the Distributed Runtime Environment:
 
      $ ./run_distributed.sh /path/to/ClickStreamFlow-<version>.jar co.cask.tigon.apps.clickstreamflow.ClickStreamFlow
 
 Optional runtime arguments:
-    - ``httpPort``: Specify the netowrk port for the HTTP data ingestion service. If not specified, Tigon automatically assigns a port. This value is always announced at runtime.
-    - ``tcpPort_viewStream``: Specify the network for the TCP data ingestion service for ingesting view stream data. If not specified, Tigon automatically assigns a port. This value is always announced at runtime.
-    - ``tcpPort_clickStream``: Specify the network for the TCP data ingestion service for ingesting click stream data. If not specified, Tigon automatically assigns a port. This value is always announced at runtime.
+    - ``httpPort``: Specify the network port for the HTTP data ingestion service. If not specified, Tigon automatically assigns a port. This value is always announced at runtime.
+    - ``tcpPort_viewStream``: Specify the network port for the TCP data ingestion service for ingesting view stream data. If not specified, Tigon automatically assigns a port. This value is always announced at runtime.
+    - ``tcpPort_clickStream``: Specify the network port for the TCP data ingestion service for ingesting click stream data. If not specified, Tigon automatically assigns a port. This value is always announced at runtime.
 
 ## Example Usage
 
@@ -79,6 +79,7 @@ Input
     - {"data":["8","80","0","1","2","PageName8","'0':'LinkName0' - '1':'LinkName1' - '2':'LinkName2'"]}
     - {"data":["9","90","0","1","2","PageName9","'0':'LinkName0' - '1':'LinkName1' - '2':'LinkName2'"]}
     - {"data":["10","100","0","1","2","PageName10","'0':'LinkName0' - '1':'LinkName1' - '2':'LinkName2'"]}
+
 - ``clickStream`` : 
     - {"data":["2","290","1"]}
     - {"data":["4","320","2"]}
